@@ -60,3 +60,14 @@ nanobind_add_module(
 
 # Install directive for scikit-build-core
 install(TARGETS nanobind_example_ext LIBRARY DESTINATION nanobind_example)
+
+# Build C++ extension
+python_add_library(a1 MODULE cext/a1.cc WITH_SOABI)
+execute_process(
+    COMMAND "${PYTHON_EXECUTABLE}"
+    -c "import numpy; print(numpy.get_include())"
+    OUTPUT_VARIABLE NUMPY_INCLUDE_DIR
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+target_include_directories(a1 PUBLIC ${NUMPY_INCLUDE_DIR})
+install(TARGETS a1 LIBRARY DESTINATION nanobind_example)
