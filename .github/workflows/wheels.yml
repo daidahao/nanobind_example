@@ -65,8 +65,8 @@ jobs:
         CIBW_ARCHS_WINDOWS: AMD64
         CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
         CIBW_MANYLINUX_AARCH64_IMAGE: manylinux_2_28
-        CIBW_MUSLLINUX_X86_64_IMAGE: musllinux_1_2_x86_64
-        CIBW_MUSLLINUX_AARCH64_IMAGE: musllinux_1_2_aarch64
+        CIBW_MUSLLINUX_X86_64_IMAGE: musllinux_1_2
+        CIBW_MUSLLINUX_AARCH64_IMAGE: musllinux_1_2
 
     - name: Verify clean directory
       run: git diff --exit-code
