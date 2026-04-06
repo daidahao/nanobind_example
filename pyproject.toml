@@ -43,6 +43,9 @@ build-frontend = "uv"
 # Necessary to see build output from the actual compilation
 build-verbosity = 1
 
+# Skip Python 3.10 on Windows ARM64, as there are no official numpy wheels available
+skip = "cp310-win_arm64"
+
 # Run pytest to ensure that the package was correctly built
 test-command = "pytest {project}/tests"
 test-groups = ["test"]
