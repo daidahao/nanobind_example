@@ -37,7 +37,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-14, windows-latest, windows-11-arm]
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-14, windows-latest, windows-11-arm]
 
     steps:
     - uses: actions/checkout@v5
@@ -55,23 +55,24 @@ jobs:
       with:
         enable-cache: true
 
-    - name: Build wheels (Windows ARM)
-      if: matrix.os == 'windows-11-arm'
+    - name: Build wheels (Linux/Windows ARM)
+      if: contains(matrix.os, '-arm')
       uses: pypa/cibuildwheel@v3.4
       env:
+        CIBW_ARCHS_LINUX: aarch64
+        CIBW_MANYLINUX_AARCH64_IMAGE: manylinux_2_28
+        CIBW_MUSLLINUX_AARCH64_IMAGE: musllinux_1_2
         CIBW_ARCHS_WINDOWS: ARM64
 
     - name: Build wheels (all other platforms)
-      if: matrix.os != 'windows-11-arm'
+      if: "!contains(matrix.os, '-arm')"
       uses: pypa/cibuildwheel@v3.4
       env:
         CIBW_ARCHS_MACOS: universal2
-        CIBW_ARCHS_LINUX: x86_64 aarch64
-        CIBW_ARCHS_WINDOWS: AMD64
+        CIBW_ARCHS_LINUX: x86_64
         CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
-        CIBW_MANYLINUX_AARCH64_IMAGE: manylinux_2_28
         CIBW_MUSLLINUX_X86_64_IMAGE: musllinux_1_2
-        CIBW_MUSLLINUX_AARCH64_IMAGE: musllinux_1_2
+        CIBW_ARCHS_WINDOWS: AMD64
 
     - name: Verify clean directory
       run: git diff --exit-code
