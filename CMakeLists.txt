@@ -61,8 +61,13 @@ nanobind_add_module(
 # Install directive for scikit-build-core
 install(TARGETS nanobind_example_ext LIBRARY DESTINATION nanobind_example)
 
+# Check if the SABI version is being requested
+if(NOT "${SKBUILD_SABI_VERSION}" STREQUAL "")
+  set(USE_SABI USE_SABI ${SKBUILD_SABI_VERSION})
+endif()
+
 # Build C++ extension
-python_add_library(a1 MODULE cext/a1.cc WITH_SOABI)
+python_add_library(a1 MODULE WITH_SOABI ${USE_SABI} cext/a1.cc)
 execute_process(
     COMMAND "${PYTHON_EXECUTABLE}"
     -c "import numpy; print(numpy.get_include())"
