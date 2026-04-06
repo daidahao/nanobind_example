@@ -31,7 +31,7 @@ wheel.py-api = "cp312"
 
 [tool.cibuildwheel]
 # Use uv as build frontend
-build-frontends = "uv"
+build-frontend = "uv"
 # Necessary to see build output from the actual compilation
 build-verbosity = 1
 
