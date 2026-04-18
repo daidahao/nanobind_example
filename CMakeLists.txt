@@ -38,7 +38,9 @@ nanobind_add_module(
   # Name of the extension
   nanobind_example_ext
 
-  # This extension is free-threaded
+  # This extension is free-threaded. Remove this flag if your
+  # code is not thread-safe. See the documentation for details:
+  # https://nanobind.readthedocs.io/en/latest/free_threaded.html
   FREE_THREADED
 
   # Target the stable ABI for Python 3.12+, which reduces
