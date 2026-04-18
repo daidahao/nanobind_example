@@ -34,6 +34,7 @@ wheel.py-api = "cp312"
 [tool.cibuildwheel]
 # Necessary to see build output from the actual compilation
 build-verbosity = 1
+# Use uv for faster builds
 build-frontend = "uv"
 
 # Run pytest to ensure that the package was correctly built
