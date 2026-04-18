@@ -44,6 +44,8 @@ jobs:
       with:
         submodules: true
 
+    - uses: astral-sh/setup-uv@8.1.0
+
     - uses: pypa/cibuildwheel@v3.4.1
 
     - name: Verify clean directory
