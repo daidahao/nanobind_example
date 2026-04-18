@@ -41,7 +41,7 @@ test-command = "pytest {project}/tests"
 test-groups = ["test"]
 
 [tool.cibuildwheel.windows]
-archs = ["amd64"]
+archs = ["AMD64"]
 
 [tool.cibuildwheel.macos]
 archs = ["universal2"]
