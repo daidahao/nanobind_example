@@ -33,10 +33,13 @@ find_package(Python 3.10
 # Import nanobind through CMake's find_package mechanism
 find_package(nanobind CONFIG REQUIRED)
 
+# Set extension name
+set(EXT_NAME "nanobind_example_ext")
+
 # We are now ready to compile the actual extension module
 nanobind_add_module(
   # Name of the extension
-  nanobind_example_ext
+  ${EXT_NAME}
 
   # This extension is free-threaded. Remove this flag if your
   # code is not thread-safe. See the documentation for details:
@@ -60,5 +63,25 @@ nanobind_add_module(
   src/nanobind_example_ext.cpp
 )
 
+# Generate a stub file for the extension, required for type checking
+nanobind_add_stub(
+  ${EXT_NAME}_stub
+  MODULE ${EXT_NAME}
+  OUTPUT ${EXT_NAME}.pyi
+  PYTHON_PATH $<TARGET_FILE_DIR:${EXT_NAME}>
+  MARKER_FILE py.typed
+  DEPENDS ${EXT_NAME}
+)
+
+# Keep generated typing artifacts visible to language servers during local/editable
+# development. VS Code/Pylance resolves this workspace package from source.
+add_custom_command(
+  TARGET ${EXT_NAME}_stub POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    ${CMAKE_CURRENT_BINARY_DIR}/${EXT_NAME}.pyi
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/${PROJECT_NAME}/${EXT_NAME}.pyi
+)
+
+
 # Install directive for scikit-build-core
-install(TARGETS nanobind_example_ext LIBRARY DESTINATION nanobind_example)
+install(TARGETS ${EXT_NAME} LIBRARY DESTINATION ${PROJECT_NAME})

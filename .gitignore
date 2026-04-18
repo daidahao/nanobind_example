@@ -7,3 +7,4 @@ build
 *.egg-info
 .vscode
 .vs
+nanobind_example_ext.pyi
